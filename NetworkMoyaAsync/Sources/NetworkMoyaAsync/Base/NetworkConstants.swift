@@ -9,6 +9,6 @@ import Foundation
 
 struct NetworkConstants{
 
-    static let baseURL = URL(string: "https://reqres.in/api")! //complete url = /users?page=1
+    static let baseURL_User = URL(string: "https://reqres.in/api")!
     
 }
