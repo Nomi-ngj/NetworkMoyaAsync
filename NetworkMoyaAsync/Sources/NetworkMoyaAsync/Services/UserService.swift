@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 enum UserService{
-    case user
+    case user(request:UserRequest)
 }
 
 extension UserService:TargetType{
@@ -20,7 +20,7 @@ extension UserService:TargetType{
     var path: String {
         switch self {
         case .user:
-            return "/users?page=1"
+            return "/users"
         }
     }
     
@@ -33,14 +33,12 @@ extension UserService:TargetType{
     
     var task: Moya.Task {
         switch self {
-        case .user:
-            return .requestParameters(parameters: ["page":1], encoding: URLEncoding.queryString)
+        case .user(let request):
+            return .requestParameters(parameters: request.toDictionary(), encoding: URLEncoding.queryString)
         }
     }
     
     var headers: [String : String]? {
         return [:]
     }
-    
-    
 }
