@@ -10,6 +10,8 @@ import Moya
 
 public struct UserClient{
     
+    public init(){}
+    
     /// MoyaProvider for handling UserService requests with regular session configuration.
     private let provider = MoyaProvider<UserService>(session: NetworkRequestManager.manager(.default),
                                                                plugins: [Plugin.loggerPluggin, Plugin.networkPlugin, Plugin.statusCodePlugin])
