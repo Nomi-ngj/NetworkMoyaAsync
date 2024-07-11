@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct UserRequest:Encodable{
+public struct UserRequest:Encodable{
     let page: Int
 }
