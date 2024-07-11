@@ -8,7 +8,7 @@
 import Foundation
 import Moya
 
-public struct UserClient{
+public class UserClient{
     
     public init(){}
     
