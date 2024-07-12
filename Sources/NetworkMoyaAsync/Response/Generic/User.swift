@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - User
-public struct User: Decodable, Identifiable, Equatable {
+public struct User: Codable, Identifiable, Equatable {
     public let id: Int
     public let firstName: String
     public let lastName: String
