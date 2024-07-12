@@ -9,4 +9,8 @@ import Foundation
 
 public struct UserRequest:Encodable{
     let page: Int
+    
+    public init(page: Int) {
+        self.page = page
+    }
 }
