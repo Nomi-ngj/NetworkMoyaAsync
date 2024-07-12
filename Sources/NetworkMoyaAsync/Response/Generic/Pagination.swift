@@ -9,6 +9,6 @@ import Foundation
 
 // MARK: - Pagination
 public struct Pagination<T: Codable>: Codable {
-    let page, perPage, total, totalPages: Int?
-    var data: [T]?
+    public let page, perPage, total, totalPages: Int
+    public var data: [T]?
 }

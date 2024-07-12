@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Datum
 public struct User: Codable {
-    let id: Int?
-    let email, firstName, lastName: String?
-    let avatar: String?
+    public let id: Int
+    public let email, firstName, lastName: String
+    public let avatar: String
 }
