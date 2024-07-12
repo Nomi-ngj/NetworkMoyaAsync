@@ -35,7 +35,7 @@ enum NetworkError: Error {
 
 extension Error {
     // Provides a localized description for network errors or returns the standard error description
-    var localizedNetworkErrorDescription: String {
+    public var localizedNetworkErrorDescription: String {
         guard let networkError = self as? NetworkError else {
             return self.localizedDescription
         }
