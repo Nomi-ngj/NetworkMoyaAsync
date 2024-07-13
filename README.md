@@ -39,30 +39,41 @@ Define a `UserViewModel` class that conforms to `ObservableObject` This class wi
 
 class UserViewModel: ObservableObject {
     
-    @Published var users = [User]()
-    private var currentPage:Int = 1
-    private var userClient: UserClient
+    @Published var users = [User]() // Published property to update the view when users change
+    private var currentPage: Int = 1 // Track the current page for pagination
+    private var userClient: UserClient // Unowned reference to the user client
+    private var fetchUsersTask: Task<Void, Never>? = nil // Task to manage ongoing fetch user requests
     
     init(userClient: UserClient) {
         self.userClient = userClient
     }
     
+    // Fetch users with pagination support
     func fetchUsers(page: Int) {
-        Task{
+        // Cancel any ongoing task to avoid multiple network calls
+        fetchUsersTask?.cancel()
+        
+        // Create a new task for fetching users
+        fetchUsersTask = Task {
             do {
+                // Update the current page
                 self.currentPage = page
+                // Make the network request to fetch users
                 let usersResponse = try await userClient.getUsers(request: .init(page: page))
+                // If it's the first page, replace the users array, else append to it
                 if page == 1 {
                     self.users = usersResponse.data ?? []
-                }else{
+                } else {
                     self.users.append(contentsOf: usersResponse.data ?? [])
                 }
-            }catch {
-                debugPrint(error.localizedNetworkErrorDescription)
+            } catch {
+                // Handle errors appropriately
+                debugPrint(error.localizedDescription)
             }
         }
     }
 }
+
 ```
 
 ### Use the ViewModel in Your SwiftUI View:
