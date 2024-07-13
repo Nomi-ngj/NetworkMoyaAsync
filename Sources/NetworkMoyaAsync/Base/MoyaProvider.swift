@@ -27,6 +27,7 @@ extension MoyaProvider {
         /// - Parameter target: The Moya Target representing the endpoint to request.
         /// - Returns: A value of type T decoded from the network response.
         /// - Throws: An error if the network request fails or if there's an issue decoding the response.
+        @discardableResult
         func request<T: Decodable>(_ target: Target) async throws -> T {
             return try await withCheckedThrowingContinuation { continuation in
                 

@@ -20,7 +20,7 @@ public class UserClient{
     private let backgroundProvider = MoyaProvider<UserService>(session: NetworkRequestManager.manager(.longTime),
                                                                          plugins: [Plugin.loggerPluggin, Plugin.statusCodePlugin])
 
-
+    @discardableResult
     public func getUsers(request:UserRequest) async throws -> Pagination<User>  {
         return try await provider.async.request(.user(request: request))
     }

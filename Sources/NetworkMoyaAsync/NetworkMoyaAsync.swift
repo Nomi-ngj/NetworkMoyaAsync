@@ -5,6 +5,4 @@
 public class NetworkMoyaAsync{
     public init(){}
     
-    public var userClient = UserClient()
-    
 }
