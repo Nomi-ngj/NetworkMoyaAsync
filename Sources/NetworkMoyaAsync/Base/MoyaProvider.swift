@@ -16,6 +16,7 @@ extension MoyaProvider {
     class MoyaConcurrency {
         
         private let provider: MoyaProvider
+        private var cancellableRequest: Cancellable? // Store the cancellable request reference
         
         /// Initializes a new instance of MoyaConcurrency with the given MoyaProvider.
         /// - Parameter provider: The MoyaProvider instance to use for network requests.
@@ -30,8 +31,20 @@ extension MoyaProvider {
         @discardableResult
         func request<T: Decodable>(_ target: Target) async throws -> T {
             return try await withCheckedThrowingContinuation { continuation in
+                // Cancel any existing request before starting a new one
+                cancellableRequest?.cancel()
                 
-                provider.request(target) { result in
+                // Start the Moya request
+                cancellableRequest =  provider.request(target) { [weak self] result in
+                    
+                    guard let self else { return }
+                    
+                    // Check if the request was cancelled
+                    if self.cancellableRequest?.isCancelled ?? false {
+                        continuation.resume(throwing: NetworkError.requestCancelled)
+                        return
+                    }
+                    
                     switch result {
                     case .success(let response):
                         // Attempt to decode the response into the specified type T
@@ -48,6 +61,11 @@ extension MoyaProvider {
                     }
                 }
             }
+        }
+        
+        /// Cancel the current request if needed
+        func cancelCurrentRequest() {
+            cancellableRequest?.cancel()
         }
     }
     

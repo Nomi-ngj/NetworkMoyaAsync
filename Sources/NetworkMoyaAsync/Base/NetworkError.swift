@@ -11,6 +11,7 @@ enum NetworkError: Error {
     // Enumerates network error cases
     case genericError(code: Int, message: String? = "")
     case parsingError
+    case requestCancelled
     
     // Provides localized descriptions for each network error case
     var localizedDescription: String {
@@ -20,6 +21,8 @@ enum NetworkError: Error {
             return message ?? ""
         case .parsingError:
             return NSLocalizedString("Error while parsing data.", comment: "")
+        case .requestCancelled:
+            return NSLocalizedString("Request was cancelled.", comment: "")
         }
     }
     
